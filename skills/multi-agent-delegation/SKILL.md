@@ -201,8 +201,29 @@ Every delegated agent should be told to:
    - blockers
    - next useful handoff notes
 7. Log completion metadata with model used and token usage fields.
+8. Update the task status in `orchestration/TASKS.md`.
 
 If the task is underspecified or overlaps another task, stop and report that before editing.
+
+## Completion Gate
+
+Never call a task complete unless all required completion artifacts exist and agree.
+
+Required completion artifacts:
+
+- the task file in `orchestration/tasks/` has its `Completion metadata` block filled in
+- `orchestration/TASKS.md` marks the task as completed or equivalent non-draft executed state
+- `orchestration/progress.md` records the task completion with a dated handoff note
+- a review artifact exists at `orchestration/reviews/TASK-XX-review.md`
+- the review decision is `approved`
+
+Rules:
+
+- a chat message or parent-agent summary is not a completion artifact
+- progress notes alone are not sufficient
+- if completion metadata is missing, the task is incomplete even if code was written
+- if the review artifact is missing or not approved, the task is incomplete
+- if `orchestration/TASKS.md` is still marked `draft`, no task may be represented as complete
 
 ## Reviewer Instructions
 
@@ -216,6 +237,8 @@ The reviewer checks:
 - verification output
 - obvious bugs or regressions
 - completion metadata presence (model used and token usage fields)
+- task index status consistency
+- progress log consistency
 - planner metadata only during run closeout, not as a per-task block
 
 If the task fails review:

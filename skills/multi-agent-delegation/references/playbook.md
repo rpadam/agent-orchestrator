@@ -38,7 +38,8 @@ Planner flow:
 19. Require verification on every task.
 20. Require a review pass before marking a task complete.
 21. Log completion metadata: model used and token usage fields.
-22. Append handoff notes after each task.
+22. Update task status in `orchestration/TASKS.md`.
+23. Append handoff notes after each task.
 
 Model selection defaults:
 
@@ -131,7 +132,14 @@ Review standard:
 - a task is not complete until reviewed
 - check scope adherence, changed files, acceptance criteria, verification results, and blockers
 - check completion metadata includes model and token usage fields
+- check `orchestration/TASKS.md` and `orchestration/progress.md` agree with the task file
 - reject if verification was skipped or unrelated files changed
+
+Completion protocol:
+
+- a task is complete only when its task file metadata is filled in, its review artifact exists and is approved, its status is updated in `orchestration/TASKS.md`, and its completion is logged in `orchestration/progress.md`
+- a summary in chat is never enough to mark a task complete
+- if `orchestration/TASKS.md` is still `draft`, no task should be represented as complete
 
 Task artifact standard:
 

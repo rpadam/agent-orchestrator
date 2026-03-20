@@ -27,6 +27,12 @@ Check 5: Usage Tracking
 - Are token fields present?
 - If token counts are missing, is there an explicit reason?
 
+Check 5b: Completion Records
+- Is the task file's completion metadata block filled in?
+- Does `orchestration/TASKS.md` mark the task status consistently?
+- Does `orchestration/progress.md` log the completion consistently?
+- Is there any mismatch between those artifacts?
+
 Check 6: Routing Honesty
 - Did the task file declare `model_enforcement`?
 - Did any dispatch artifact accurately describe how the requested model would be launched?
@@ -52,3 +58,4 @@ Rules:
 - be specific about failed criteria
 - if retrying, say whether the same model tier is adequate
 - escalate only when complexity is the issue
+- do not approve a task with missing completion metadata or missing status synchronization

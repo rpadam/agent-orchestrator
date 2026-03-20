@@ -72,6 +72,7 @@ Verification:
 
 Finish by:
 - updating orchestration/progress.md
+- updating task status in orchestration/TASKS.md
 - summarizing changed files
 - listing blockers honestly
 
@@ -103,4 +104,5 @@ Rules:
 - if parallel is approved, preserve the recommended model tier per task
 - include token estimate ranges before dispatch
 - log model-used and token-usage fields at completion (use null if unavailable)
+- do not treat the task as complete until the completion metadata block is filled in
 - keep the matching entry in `orchestration/TASKS.md` concise and point to the standalone task file
