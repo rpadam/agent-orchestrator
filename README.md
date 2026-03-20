@@ -49,3 +49,25 @@ It provides a portable operating model that works across agentic tools:
 If you want machine-readable manifests, use:
 
 - [schemas/task-manifest.schema.json](./schemas/task-manifest.schema.json)
+
+## CLI Helper
+
+The code in `src/` is a lightweight helper CLI for the skill workflow.
+
+Use it to:
+
+- validate task manifests
+- list runnable tasks based on dependencies
+- dispatch provider commands from adapter configs
+- run per-task review checks
+- run run-closeout checks for planner metadata accounting
+
+Typical usage:
+
+```bash
+node ./src/cli.js validate --project /path/to/project --manifest orchestration/tasks.json
+node ./src/cli.js plan --project /path/to/project --manifest orchestration/tasks.json
+node ./src/cli.js run --project /path/to/project --manifest orchestration/tasks.json --task UI-01 --adapter orchestration/adapters.json --provider codex --dry-run
+node ./src/cli.js review --project /path/to/project --manifest orchestration/tasks.json --task UI-01
+node ./src/cli.js closeout --project /path/to/project --manifest orchestration/tasks.json
+```

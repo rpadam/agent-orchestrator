@@ -2,7 +2,13 @@
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { parseArgs } from './lib/args.js';
-import { loadManifest, validateManifest, getRunnableTasks, getTaskById } from './lib/manifest.js';
+import {
+  loadManifest,
+  validateManifest,
+  getRunnableTasks,
+  getTaskById,
+  checkRunCloseout
+} from './lib/manifest.js';
 import { loadAdapters, getAdapter, buildCommand } from './lib/adapters.js';
 import { loadModelPolicy, chooseProfile } from './lib/models.js';
 import { getChangedFiles, reviewAllowedPaths, runVerificationCommands } from './lib/review.js';
@@ -23,7 +29,7 @@ function main() {
   const { command, options } = parseArgs(process.argv.slice(2));
 
   if (!command) {
-    throw new Error('Missing command. Use validate, plan, run, or review.');
+    throw new Error('Missing command. Use validate, plan, run, review, or closeout.');
   }
 
   const projectRoot = path.resolve(requireOption(options, 'project'));
@@ -44,7 +50,14 @@ function main() {
       preferred_tier: task.preferred_tier || 'medium',
       can_run_parallel: Boolean(task.can_run_parallel)
     }));
-    printJson({ runnable });
+
+    const executionPolicy = manifest.execution_policy || {
+      default_mode: 'sequential',
+      parallel_requires_explicit_user_consent: true,
+      keep_task_recommended_model_tier_in_parallel: true
+    };
+
+    printJson({ runnable, execution_policy: executionPolicy });
     return;
   }
 
@@ -112,6 +125,12 @@ function main() {
 
     printJson(payload);
     process.exit(allowed.ok && verificationFailed.length === 0 ? 0 : 1);
+  }
+
+  if (command === 'closeout') {
+    const closeout = checkRunCloseout(manifest);
+    printJson(closeout);
+    process.exit(closeout.ok ? 0 : 1);
   }
 
   throw new Error(`Unknown command ${command}`);
