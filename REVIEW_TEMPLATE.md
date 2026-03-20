@@ -22,10 +22,15 @@ Check 4: Quality
 - Any regressions?
 - Any missing tests or validation?
 
-Check 5: Usage Tracking
+Check 5: Usage Tracking (Task)
 - Is model used documented?
 - Are token fields present?
 - If token counts are missing, is there an explicit reason?
+
+Check 6: Planning Metadata (Run Closeout Only)
+- Skip for normal per-task reviews.
+- At run closeout, is planner metadata present in PLAN.md?
+- At run closeout, are planner token/cost fields present or null with reason?
 
 Decision:
 - approved

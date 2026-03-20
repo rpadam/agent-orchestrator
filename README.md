@@ -10,12 +10,14 @@ Use it when you want:
 - model routing by task difficulty and risk
 - review gates before marking tasks complete
 - token cost estimates and completion usage logs
+- parent planner model/token logging in the project plan
 
 ## Start Here
 
 Core docs:
 
 - [PLAYBOOK.md](./PLAYBOOK.md)
+- [PLAN_TEMPLATE.md](./PLAN_TEMPLATE.md)
 - [TASK_TEMPLATE.md](./TASK_TEMPLATE.md)
 - [REVIEW_TEMPLATE.md](./REVIEW_TEMPLATE.md)
 - [MODEL_ROUTING.md](./MODEL_ROUTING.md)
@@ -40,7 +42,7 @@ It provides a portable operating model that works across agentic tools:
 - bounded task format
 - model routing policy
 - reviewer checklist
-- structured task manifest (optional)
+- usage visibility for planning and execution
 
 ## Optional Structured Layer
 

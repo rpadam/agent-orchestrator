@@ -7,9 +7,9 @@ This file covers real-world issues when other teams use this workflow.
 Partially.
 
 - Some platforms provide agent execution primitives.
-- Very few provide a portable, cross-platform operating standard for planning, model routing, review gates, and usage logging.
+- Few provide a portable standard for planning, task boundaries, model routing, review gates, and usage logging.
 
-This repo fills that portability gap.
+This repo is that portability layer.
 
 ## 2) Cost Efficiency Controls
 
@@ -20,6 +20,7 @@ Use all of these together:
 - sequential default to limit parallel burn
 - required token_estimate before dispatch
 - required completion_usage after execution
+- required parent planner usage metadata in `PLAN.md`
 - reviewer gate before rework loops
 
 ## 3) Cost Predictability Limits
@@ -28,50 +29,51 @@ Token estimates are useful but imperfect.
 
 Reasons estimates drift:
 
-- hidden chain-of-thought and tool overhead differ by provider
-- retries and error recovery increase usage
+- hidden reasoning/tool overhead differs by provider
+- retries and recovery loops add usage
 - context growth across long sessions increases input tokens
-- model substitutions by platform may occur
+- platform-level model substitutions can happen
 
 Recommendation:
 
 - estimate ranges, not single values
 - track actuals task-by-task
+- track planner usage separately from implementer usage
 - recalibrate estimates every 3 to 5 completed tasks
 
-## 4) Cross-Platform Differences To Expect
+## 4) Cross-Platform Maturity (Installation)
 
-Common differences across Codex, Cursor, Claude Code, and others:
+- Codex: native skill model with explicit invocation and skill installers.
+- Claude Code: native skills plus plugin marketplaces for distributable install flows.
+- Cursor: strong rules support, but no equivalent first-party skill marketplace flow today.
 
-- model naming and availability
-- telemetry access (some expose token usage, some do not)
-- native skill support vs prompt-pack only
-- tool sandbox and permission behavior
+Practical implication:
 
-Design for these differences by keeping policy in markdown docs and using optional structured manifests.
+- use native install paths where possible
+- use git-based sync for cross-platform fallback
 
 ## 5) Model Routing Reliability
 
-Map your routing to capability tiers, not fixed names:
+Map routing to capability tiers, not fixed model names:
 
 - low cost tier
 - medium tier
 - high tier
 
-Then map tier to actual provider model names per platform.
+Then map tier to real model names per platform.
 
 ## 6) Governance and Safety
 
 Require these controls before broad team adoption:
 
-- explicit list of writable paths per task
-- no-destructive-command policy unless user-approved
+- explicit writable-path boundaries per task
+- no destructive commands unless user-approved
 - review gate required for completion
-- audit log in progress file for model + token metadata
+- audit logs for planner and implementer model/token metadata
 
 ## 7) Minimum Viable Team Rollout
 
 1. Start with sequential-only mode for 1 to 2 projects.
-2. Enforce completion metadata for every task.
+2. Enforce planner and task completion metadata for every run.
 3. Publish weekly cost and rework summaries.
 4. Introduce parallel mode only for proven independent task pairs.

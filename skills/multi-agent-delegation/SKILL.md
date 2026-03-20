@@ -10,6 +10,7 @@ Use this skill when one agent should break a larger software task into multiple 
 Keep `SKILL.md` loaded for the operating rules. Read bundled references only when needed:
 
 - `references/playbook.md` for the human workflow being implemented
+- `references/plan-template.md` when drafting `PLAN.md`
 - `references/task-template.md` when drafting task definitions
 - `references/review-template.md` when reviewing completed tasks
 - `references/model-routing.md` when choosing model tiers
@@ -27,13 +28,36 @@ If those files do not exist, create them before dispatching implementation work.
 ## Planner Workflow
 
 1. Understand the project goal and current code layout.
-2. Split the work into tasks with clear file boundaries.
-3. Add dependency order.
-4. Set execution mode to `sequential` by default.
-5. Mark which tasks can safely run in parallel.
-6. Add token estimate ranges for every task.
-7. Define verification commands for every task.
-8. Define reviewer criteria for every task.
+2. Write or update `PLAN.md` using the plan template structure.
+3. Record parent planner metadata in the plan, including model and token usage fields.
+4. Split the work into tasks with clear file boundaries.
+5. Add dependency order.
+6. Set execution mode to `sequential` by default.
+7. Mark which tasks can safely run in parallel.
+8. Add token estimate ranges for every task.
+9. Define verification commands for every task.
+10. Define reviewer criteria for every task.
+
+## Parent Planner Metadata Requirement
+
+The project plan must include:
+
+- `planner_agent_role`
+- `planner_agent_label`
+- `planner_provider`
+- `planner_model_requested`
+- `planner_model_actual`
+- `planner_input_tokens_actual` (nullable)
+- `planner_output_tokens_actual` (nullable)
+- `planner_total_tokens_actual` (nullable)
+- `planner_cost_actual_usd` (nullable)
+- `plan_created_at`
+- `planning_usage_notes`
+
+If usage metrics are unavailable, set to `null` and document why.
+
+Planner metadata is for run-level human review and accounting.
+Implementer sub-agents do not need to validate planner metadata.
 
 ## Execution Mode Control
 
@@ -100,6 +124,7 @@ The reviewer checks:
 - verification output
 - obvious bugs or regressions
 - completion metadata presence (model used and token usage fields)
+- planner metadata only during run closeout, not as a per-task block
 
 If the task fails review:
 
@@ -180,6 +205,7 @@ Finish by:
 Read these when needed:
 
 - `references/playbook.md`
+- `references/plan-template.md`
 - `references/task-template.md`
 - `references/review-template.md`
 - `references/model-routing.md`
