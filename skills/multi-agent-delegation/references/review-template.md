@@ -27,6 +27,16 @@ Check 5: Usage Tracking
 - Are token fields present?
 - If token counts are missing, is there an explicit reason?
 
+Check 6: Routing Honesty
+- Did the task file declare `model_enforcement`?
+- Did any dispatch artifact accurately describe how the requested model would be launched?
+- Was routing marked `advisory` when enforcement was not actually available?
+
+Check 7: Model Economy
+- Was the requested model consistent with the routing policy?
+- If `frontier` was selected, did the task explain why `balanced` was not a good first pass?
+- Does the task appear overpowered for the assigned scope?
+
 Decision:
 - approved
 - needs changes

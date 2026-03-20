@@ -9,6 +9,24 @@ Goal: Build the shell layout and title screen.
 Project root:
 /absolute/path/to/project
 
+Model class requested:
+<economy|balanced|frontier>
+
+Reasoning requested:
+<low|medium|high|xhigh>
+
+Model selection rationale:
+<why this model class is economical for this task, and why a cheaper class would or would not be sufficient>
+
+Model enforcement:
+<enforced|advisory>
+
+Dispatch mechanism:
+<current_session|codex_subagent|cursor_agent|cursor_background_agent|claude_subagent|claude_custom_command|manual>
+
+Fallback if unavailable:
+<what to do if the requested model cannot be launched>
+
 Execution mode:
 - sequential
 
@@ -71,6 +89,9 @@ Rules:
 
 - keep each task to one goal
 - store every delegated task as its own file under `orchestration/tasks/`
+- do not claim a requested model will be used unless the dispatch mechanism can actually enforce it
+- do not hardcode provider-specific model IDs in task files
+- if selecting `frontier`, explicitly justify why `balanced` is not a good first pass
 - make file scope explicit
 - make “do not” rules explicit
 - make acceptance criteria observable

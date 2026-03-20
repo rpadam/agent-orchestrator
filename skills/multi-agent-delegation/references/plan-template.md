@@ -22,6 +22,19 @@ Out of scope:
 - parallel_requires_explicit_user_consent: true
 - model_routing_invariant_across_modes: true
 
+## Model routing contract
+- routing_mode_default: advisory
+- enforced_routing_requires_explicit_launch_support: true
+- routing_classes:
+  - economy
+  - balanced
+  - frontier
+- platform_model_map_file: orchestration/PLATFORM_MODEL_MAP.md
+- supported_dispatch_artifacts:
+  - orchestration/dispatch/TASK-XX.codex.md
+  - orchestration/dispatch/TASK-XX.cursor.md
+  - orchestration/dispatch/TASK-XX.claude.md
+
 ## Plan creation metadata
 - planner_agent_role: parent_planner
 - planner_agent_label: <agent name or handle>

@@ -12,6 +12,8 @@ Keep `SKILL.md` loaded for the operating rules. Read bundled references only whe
 - `references/playbook.md` for the human workflow being implemented
 - `references/plan-template.md` when drafting `PLAN.md`
 - `references/task-template.md` when drafting task definitions
+- `references/dispatch-template.md` when drafting per-platform dispatch files
+- `references/platform-model-map-template.md` when drafting `PLATFORM_MODEL_MAP.md`
 - `references/review-template.md` when reviewing completed tasks
 - `references/model-routing.md` when choosing model tiers
 
@@ -23,7 +25,11 @@ Unless the user explicitly requests a different location, store all files create
 - `orchestration/TASKS.md`
 - `orchestration/progress.md`
 - `orchestration/MODEL_ROUTING.md`
+- `orchestration/PLATFORM_MODEL_MAP.md`
 - `orchestration/tasks/TASK-XX.md`
+- `orchestration/dispatch/TASK-XX.codex.md`
+- `orchestration/dispatch/TASK-XX.cursor.md`
+- `orchestration/dispatch/TASK-XX.claude.md`
 - `orchestration/reviews/TASK-XX-review.md`
 
 Do not scatter skill-generated files across the project root.
@@ -47,12 +53,14 @@ If those files do not exist, create them under `orchestration/` before dispatchi
 4. Split the work into tasks with clear file boundaries.
 5. Write or update `orchestration/TASKS.md` as the task index and execution ledger.
 6. Create one standalone task file per task in `orchestration/tasks/` using the task template.
-7. Add dependency order.
-8. Set execution mode to `sequential` by default.
-9. Mark which tasks can safely run in parallel.
-10. Add token estimate ranges for every task.
-11. Define verification commands for every task.
-12. Define reviewer criteria for every task.
+7. For each task, record whether model routing is `advisory` or `enforced`.
+8. Create per-platform dispatch files in `orchestration/dispatch/` when the user wants executable routing help.
+9. Add dependency order.
+10. Set execution mode to `sequential` by default.
+11. Mark which tasks can safely run in parallel.
+12. Add token estimate ranges for every task.
+13. Define verification commands for every task.
+14. Define reviewer criteria for every task.
 
 ## Parent Planner Metadata Requirement
 
@@ -111,6 +119,51 @@ Prefer tasks like:
 
 - “build the shell layout in `index.html`, `src/styles.css`, and `src/ui/*` without touching combat logic”
 
+## Model Routing Contract
+
+Model routing must never be implied.
+Every task must declare one of:
+
+- `model_enforcement: enforced`
+- `model_enforcement: advisory`
+
+Use `enforced` only when the execution environment can actually launch the task on the requested model.
+Use `advisory` when the task will run on the current session model unless a human launches it differently.
+
+Every task must also include:
+
+- `model_class_requested`
+- `reasoning_requested`
+- `dispatch_mechanism`
+- `fallback_if_unavailable`
+
+Recommended `model_class_requested` values:
+
+- `economy`
+- `balanced`
+- `frontier`
+
+Do not hardcode provider-specific model IDs in the core plan, task index, or standalone task files.
+Concrete model IDs belong only in platform-specific dispatch artifacts or a project-local platform map such as `orchestration/PLATFORM_MODEL_MAP.md`.
+
+Valid `dispatch_mechanism` examples:
+
+- `current_session`
+- `codex_subagent`
+- `cursor_agent`
+- `cursor_background_agent`
+- `claude_subagent`
+- `claude_custom_command`
+- `manual`
+
+Platform guidance:
+
+- Codex: treat routing as enforceable only when launching a sub-agent or new agent with an explicit model override. If continuing in the same session, routing is advisory.
+- Cursor: treat routing as enforceable only when launching a new agent, background agent, or CLI session with explicit model selection. If continuing in the same session, routing is advisory.
+- Claude Code: treat routing as enforceable only when using a mechanism that explicitly sets the model, such as a model-specific custom command or equivalent supported launcher. Plain subagent use alone is not enough evidence of enforced routing.
+
+Never tell the user “start TASK-01 next” without also stating whether the task will use the current session model or a routed model.
+
 ## Implementer Instructions
 
 Every delegated agent should be told to:
@@ -165,25 +218,26 @@ If parallel consent is not explicitly granted, do not run safe pairs in parallel
 
 ## Model Routing
 
-Use the cheapest model likely to succeed.
+Use the cheapest model class likely to succeed.
 
-Cheap tier:
+Task tiers:
 
-- bounded tasks
-- simple refactors
-- docs
-- verification summaries
+- cheap
+- medium
+- high
 
-Medium tier:
+Default routing classes:
 
-- default implementation tasks
-- most multi-file work
+- cheap -> `economy`
+- medium -> `balanced`
+- high -> `frontier`
 
-High tier:
+Economic bias:
 
-- architecture
-- integration rescue
-- risky review work
+- default to `economy` for bounded tasks and verification-oriented work
+- default to `balanced` for most implementation work
+- use `frontier` only when the task is architecture-sensitive, integration-heavy, or has already failed at a cheaper class
+- if selecting `frontier`, explain why `balanced` is likely insufficient
 
 For more detail, read `references/model-routing.md`.
 
@@ -197,8 +251,11 @@ When writing the task index in `orchestration/TASKS.md`, include:
 - execution mode
 - parallel consent
 - model routing
+- model class requested
+- model enforcement
 - token estimate
 - task file path
+- dispatch file paths
 - reviewer expectation
 
 When writing each standalone task file in `orchestration/tasks/`, use this structure:
@@ -207,6 +264,11 @@ When writing each standalone task file in `orchestration/tasks/`, use this struc
 Task ID: TASK-01
 Goal: one sentence
 Project root: /absolute/path
+Model class requested: <economy|balanced|frontier>
+Reasoning requested: <low|medium|high|xhigh>
+Model enforcement: <enforced|advisory>
+Dispatch mechanism: <mechanism>
+Fallback if unavailable: <what to do>
 Read first:
 - /absolute/path/orchestration/PLAN.md
 - /absolute/path/orchestration/TASKS.md
@@ -235,5 +297,7 @@ Read these when needed:
 - `references/playbook.md`
 - `references/plan-template.md`
 - `references/task-template.md`
+- `references/dispatch-template.md`
+- `references/platform-model-map-template.md`
 - `references/review-template.md`
 - `references/model-routing.md`
