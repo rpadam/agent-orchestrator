@@ -9,6 +9,12 @@ Goal: Build the shell layout and title screen.
 Project root:
 /absolute/path/to/project
 
+Execution mode:
+- sequential
+
+Parallel consent:
+- not_granted
+
 Read first:
 - /absolute/path/to/project/PLAN.md
 - /absolute/path/to/project/TASKS.md
@@ -51,3 +57,5 @@ Rules:
 - make “do not” rules explicit
 - make acceptance criteria observable
 - make verification commands concrete
+- default to sequential unless the user explicitly requests or approves parallel
+- if parallel is approved, preserve the recommended model tier per task

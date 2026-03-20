@@ -37,3 +37,8 @@ Escalation:
 - cheap to medium when the task was bounded but needed stronger reasoning
 - medium to high when the review finds architectural flaws or the task keeps failing after one retry
 - do not escalate just because the first agent was sloppy; tighten the task first
+
+Execution-mode invariance:
+
+- the task's recommended model tier should stay the same in sequential and parallel modes
+- do not downgrade quality tiers just because you are running tasks concurrently

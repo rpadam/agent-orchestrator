@@ -36,6 +36,20 @@ Recommended flow:
 6. Require a review pass before marking a task complete.
 7. Append handoff notes after each task.
 
+## Execution Control
+
+Default:
+
+- sequential execution, one task at a time
+
+Parallel:
+
+- only when the user explicitly requests parallel execution or explicitly consents
+- only for tasks that do not overlap in file ownership
+- still respect the recommended model tier per task
+
+If user consent for parallel execution is missing, stay sequential even if tasks look parallel-safe.
+
 ## Required Project Files
 
 Each project using this pattern should contain:
@@ -78,6 +92,11 @@ Usually unsafe:
 - UI task and state task both changing reducers
 - two agents editing the same CSS file at once
 
+Consent rule:
+
+- safe parallelism is necessary but not sufficient
+- explicit user consent is required before parallel execution
+
 ## Model Routing
 
 Cheap models:
@@ -101,6 +120,10 @@ High-end models:
 - rescue tasks after failed reviews
 - integration work touching many systems
 - review of risky or complex code
+
+Execution mode does not change model policy:
+
+- sequential and parallel runs should use the same recommended model tier for each task
 
 ## Review Standard
 

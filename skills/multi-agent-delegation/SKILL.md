@@ -29,9 +29,28 @@ If those files do not exist, create them before dispatching implementation work.
 1. Understand the project goal and current code layout.
 2. Split the work into tasks with clear file boundaries.
 3. Add dependency order.
-4. Mark which tasks can safely run in parallel.
-5. Define verification commands for every task.
-6. Define reviewer criteria for every task.
+4. Set execution mode to `sequential` by default.
+5. Mark which tasks can safely run in parallel.
+6. Define verification commands for every task.
+7. Define reviewer criteria for every task.
+
+## Execution Mode Control
+
+Default behavior:
+
+- run one task at a time (`sequential`)
+
+Parallel behavior:
+
+- only use if the user explicitly requests it or explicitly consents
+- only parallelize tasks with no file overlap and no shared ownership risk
+- keep the model-routing policy unchanged in parallel mode
+
+When planning, always include:
+
+- `execution_mode: sequential` or `execution_mode: parallel`
+- `parallel_consent: explicit` or `parallel_consent: not_granted`
+- a short justification if `execution_mode: parallel`
 
 A good task has:
 
@@ -96,6 +115,8 @@ Usually unsafe:
 
 - two tasks editing the same reducer, loop, or stylesheet
 - two tasks changing the same UI panel system
+
+If parallel consent is not explicitly granted, do not run safe pairs in parallel anyway.
 
 ## Model Routing
 
