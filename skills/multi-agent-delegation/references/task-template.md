@@ -9,7 +9,7 @@ Task ID: UI-01
 Goal: Build the shell layout and title screen.
 
 Project root:
-/absolute/path/to/project
+.
 
 Model class requested:
 <economy|balanced|frontier>
@@ -42,9 +42,9 @@ Token estimate:
 - output_tokens_estimate_max: 0
 
 Read first:
-- /absolute/path/to/project/orchestration/PLAN.md
-- /absolute/path/to/project/orchestration/TASKS.md
-- /absolute/path/to/project/orchestration/progress.md
+- orchestration/PLAN.md
+- orchestration/TASKS.md
+- orchestration/progress.md
 
 Files to edit:
 - path/a
@@ -95,6 +95,7 @@ Rules:
 - do not create task files before the user approves the draft task list
 - do not claim a requested model will be used unless the dispatch mechanism can actually enforce it
 - do not hardcode provider-specific model IDs in task files
+- prefer project-relative paths over user-specific absolute filesystem paths
 - if selecting `frontier`, explicitly justify why `balanced` is not a good first pass
 - make file scope explicit
 - make “do not” rules explicit

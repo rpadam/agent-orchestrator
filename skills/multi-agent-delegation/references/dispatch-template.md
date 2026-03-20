@@ -14,7 +14,7 @@ Suggested filenames:
 # Dispatch: TASK-01 on <platform>
 
 Task file:
-- /absolute/path/to/project/orchestration/tasks/TASK-01.md
+- orchestration/tasks/TASK-01.md
 
 Routing summary:
 - model_class_requested: <economy|balanced|frontier>
@@ -30,10 +30,10 @@ Launch instructions:
 3. <what to do if the requested model is unavailable>
 
 Session requirements:
-- read /absolute/path/to/project/orchestration/PLAN.md
-- read /absolute/path/to/project/orchestration/TASKS.md
-- read /absolute/path/to/project/orchestration/tasks/TASK-01.md
-- read /absolute/path/to/project/orchestration/progress.md
+- read orchestration/PLAN.md
+- read orchestration/TASKS.md
+- read orchestration/tasks/TASK-01.md
+- read orchestration/progress.md
 
 Notes:
 - <platform-specific caveats>
@@ -43,6 +43,7 @@ Rules:
 
 - if you cannot describe a real launch path that sets the requested model, set `model_enforcement: advisory`
 - concrete model IDs belong here, not in the core task files
+- prefer project-relative paths over user-specific absolute filesystem paths
 - Codex dispatch should only claim `enforced` when the task is launched through a new agent or sub-agent with model override
 - Cursor dispatch should only claim `enforced` when the task is launched through a new agent, background agent, or CLI invocation with explicit model selection
 - Claude Code dispatch should only claim `enforced` when the task is launched through an explicit model-setting mechanism such as a model-specific custom command

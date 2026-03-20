@@ -35,6 +35,16 @@ Unless the user explicitly requests a different location, store all files create
 Do not scatter skill-generated files across the project root.
 If legacy root-level planning files already exist, read them first, then migrate or replace them under `orchestration/` before dispatching new work.
 
+## Path Style
+
+Prefer project-relative paths in all planning artifacts.
+
+Rules:
+
+- use paths like `orchestration/PLAN.md`, `src/game/*`, or `README.md`
+- do not encode user-specific absolute filesystem paths in task files, dispatch files, or task indexes unless the user explicitly asks for absolute paths
+- keep path wording stable across machines and repositories
+
 ## Read First
 
 Before planning or delegating, read the target project's:
@@ -322,16 +332,16 @@ When writing each standalone task file in `orchestration/tasks/`, use this struc
 ```text
 Task ID: TASK-01
 Goal: one sentence
-Project root: /absolute/path
+Project root: .
 Model class requested: <economy|balanced|frontier>
 Reasoning requested: <low|medium|high|xhigh>
 Model enforcement: <enforced|advisory>
 Dispatch mechanism: <mechanism>
 Fallback if unavailable: <what to do>
 Read first:
-- /absolute/path/orchestration/PLAN.md
-- /absolute/path/orchestration/TASKS.md
-- /absolute/path/orchestration/progress.md
+- orchestration/PLAN.md
+- orchestration/TASKS.md
+- orchestration/progress.md
 Files to edit:
 - path
 Files allowed to create:
