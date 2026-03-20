@@ -2,9 +2,9 @@
 
 This is the concrete example of the multi-agent delegation pattern applied to a real project.
 
-Project root:
+Project root (example local path used during setup):
 
-- [`/Users/raphaeladam/development/tower-defense-game`](/Users/raphaeladam/development/tower-defense-game)
+- `/Users/raphaeladam/development/tower-defense-game`
 
 Use this example when you want to understand how the generic playbook maps onto an actual rewrite.
 
@@ -12,10 +12,10 @@ Use this example when you want to understand how the generic playbook maps onto 
 
 Project planning files:
 
-- [`/Users/raphaeladam/development/tower-defense-game/REWRITE_PLAN.md`](/Users/raphaeladam/development/tower-defense-game/REWRITE_PLAN.md)
-- [`/Users/raphaeladam/development/tower-defense-game/AGENT_TASKS.md`](/Users/raphaeladam/development/tower-defense-game/AGENT_TASKS.md)
-- [`/Users/raphaeladam/development/tower-defense-game/AGENT_HANDOFF.md`](/Users/raphaeladam/development/tower-defense-game/AGENT_HANDOFF.md)
-- [`/Users/raphaeladam/development/tower-defense-game/progress.md`](/Users/raphaeladam/development/tower-defense-game/progress.md)
+- `REWRITE_PLAN.md`
+- `AGENT_TASKS.md`
+- `AGENT_HANDOFF.md`
+- `progress.md`
 
 Project prompt files:
 
@@ -30,8 +30,8 @@ Project prompt files:
 
 Structured task manifest:
 
-- [`/Users/raphaeladam/development/tower-defense-game/orchestration/tasks.json`](/Users/raphaeladam/development/tower-defense-game/orchestration/tasks.json)
-- [`/Users/raphaeladam/development/tower-defense-game/orchestration/model-policy.json`](/Users/raphaeladam/development/tower-defense-game/orchestration/model-policy.json)
+- `orchestration/tasks.json`
+- `orchestration/model-policy.json`
 
 ## Why This Example Is Good
 
@@ -54,7 +54,7 @@ Human-facing playbook item:
 
 Tower defense example:
 
-- [`/Users/raphaeladam/development/tower-defense-game/REWRITE_PLAN.md`](/Users/raphaeladam/development/tower-defense-game/REWRITE_PLAN.md)
+- `REWRITE_PLAN.md`
 
 Human-facing playbook item:
 
@@ -62,7 +62,7 @@ Human-facing playbook item:
 
 Tower defense example:
 
-- [`/Users/raphaeladam/development/tower-defense-game/AGENT_TASKS.md`](/Users/raphaeladam/development/tower-defense-game/AGENT_TASKS.md)
+- `AGENT_TASKS.md`
 
 Human-facing playbook item:
 
@@ -78,7 +78,7 @@ Human-facing playbook item:
 
 Tower defense example:
 
-- [`/Users/raphaeladam/development/tower-defense-game/progress.md`](/Users/raphaeladam/development/tower-defense-game/progress.md)
+- `progress.md`
 
 Human-facing playbook item:
 
@@ -86,7 +86,7 @@ Human-facing playbook item:
 
 Tower defense example:
 
-- [`/Users/raphaeladam/development/tower-defense-game/orchestration/tasks.json`](/Users/raphaeladam/development/tower-defense-game/orchestration/tasks.json)
+- `orchestration/tasks.json`
 
 ## Task Sequence In This Example
 

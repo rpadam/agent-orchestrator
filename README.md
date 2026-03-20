@@ -20,18 +20,18 @@ This repo is intentionally split into:
 
 For humans:
 
-- [`PLAYBOOK.md`](/Users/raphaeladam/development/agent-orchestrator/PLAYBOOK.md)
-- [`TASK_TEMPLATE.md`](/Users/raphaeladam/development/agent-orchestrator/TASK_TEMPLATE.md)
-- [`REVIEW_TEMPLATE.md`](/Users/raphaeladam/development/agent-orchestrator/REVIEW_TEMPLATE.md)
-- [`MODEL_ROUTING.md`](/Users/raphaeladam/development/agent-orchestrator/MODEL_ROUTING.md)
+- [PLAYBOOK.md](./PLAYBOOK.md)
+- [TASK_TEMPLATE.md](./TASK_TEMPLATE.md)
+- [REVIEW_TEMPLATE.md](./REVIEW_TEMPLATE.md)
+- [MODEL_ROUTING.md](./MODEL_ROUTING.md)
 
 For agents:
 
-- [`skills/multi-agent-delegation/SKILL.md`](/Users/raphaeladam/development/agent-orchestrator/skills/multi-agent-delegation/SKILL.md)
+- [skills/multi-agent-delegation/SKILL.md](./skills/multi-agent-delegation/SKILL.md)
 
 Concrete example:
 
-- [`examples/tower-defense-game/README.md`](/Users/raphaeladam/development/agent-orchestrator/examples/tower-defense-game/README.md)
+- [examples/tower-defense-game/README.md](./examples/tower-defense-game/README.md)
 
 ## What This Solves
 
@@ -50,7 +50,23 @@ That is the part most teams actually need first.
 
 If you want machine-readable task manifests later, this repo also includes a lightweight structured layer:
 
-- [`schemas/task-manifest.schema.json`](/Users/raphaeladam/development/agent-orchestrator/schemas/task-manifest.schema.json)
-- [`examples/adapters.example.json`](/Users/raphaeladam/development/agent-orchestrator/examples/adapters.example.json)
+- [schemas/task-manifest.schema.json](./schemas/task-manifest.schema.json)
+- [examples/adapters.example.json](./examples/adapters.example.json)
 
 You can ignore that until manual use becomes painful.
+
+## Recent Updates
+
+- Added explicit execution policy:
+  - default mode is sequential
+  - parallel mode requires explicit user request or consent
+  - model-tier routing remains unchanged between sequential and parallel modes
+- Added token estimation guidance:
+  - estimate input/output token ranges per task before dispatch
+  - use ranges instead of single-point estimates
+- Added completion usage tracking guidance:
+  - record requested model, actual model, provider, and token usage fields
+  - if usage is unavailable, record `null` with a note
+- Updated task manifest schema to support:
+  - `token_estimate` per task
+  - `completion_usage` per task
