@@ -63,3 +63,4 @@ Rules:
 - Plan metadata is required.
 - If usage data is unavailable, set the usage fields to `null` and explain in `planning_usage_notes`.
 - Keep plan artifacts inside `orchestration/` unless the user explicitly requests another layout.
+- `PLAN.md` may be drafted before task-list approval, but it should remain easy to revise based on user feedback.

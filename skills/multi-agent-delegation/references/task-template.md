@@ -2,6 +2,8 @@
 
 Use this format for every delegated task file in `orchestration/tasks/`:
 
+Create these files only after the user approves the draft task list.
+
 ```text
 Task ID: UI-01
 Goal: Build the shell layout and title screen.
@@ -89,6 +91,7 @@ Rules:
 
 - keep each task to one goal
 - store every delegated task as its own file under `orchestration/tasks/`
+- do not create task files before the user approves the draft task list
 - do not claim a requested model will be used unless the dispatch mechanism can actually enforce it
 - do not hardcode provider-specific model IDs in task files
 - if selecting `frontier`, explicitly justify why `balanced` is not a good first pass

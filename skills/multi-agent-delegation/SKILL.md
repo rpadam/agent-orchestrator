@@ -45,22 +45,45 @@ Before planning or delegating, read the target project's:
 
 If those files do not exist, create them under `orchestration/` before dispatching implementation work.
 
+## Clarification Gate
+
+Do not draft substantive plans from guesses.
+
+Required interaction order for new or unclear projects:
+
+1. If the project goal is missing or vague, ask only for the project goal first.
+2. After the user answers, restate your understanding and ask for confirmation.
+3. Ask about model preferences in a separate message. The user may decline or ignore this.
+4. If the user does not provide model preferences, explicitly state that the default routing policy will be used.
+5. Ask only the minimum additional clarifying questions needed to avoid planning the wrong thing.
+
+Rules:
+
+- never invent a product domain, app type, or prototype theme from an empty directory
+- do not create a task list until the project goal has been confirmed
+- `orchestration/` may be created before clarification is complete
+- `PLAN.md` may be created before approval as a living draft
+- `TASKS.md` may be created before approval only as a clearly marked draft index
+- do not create `orchestration/tasks/*` before the user approves the draft task list
+- after the user approves the draft task list, create all standalone task files immediately
+
 ## Planner Workflow
 
-1. Understand the project goal and current code layout.
+1. Understand the confirmed project goal and current code layout.
 2. Write or update `PLAN.md` using the plan template structure.
 3. Record parent planner metadata in the plan, including model and token usage fields.
-4. Split the work into tasks with clear file boundaries.
-5. Write or update `orchestration/TASKS.md` as the task index and execution ledger.
-6. Create one standalone task file per task in `orchestration/tasks/` using the task template.
-7. For each task, record whether model routing is `advisory` or `enforced`.
-8. Create per-platform dispatch files in `orchestration/dispatch/` when the user wants executable routing help.
-9. Add dependency order.
-10. Set execution mode to `sequential` by default.
-11. Mark which tasks can safely run in parallel.
-12. Add token estimate ranges for every task.
-13. Define verification commands for every task.
-14. Define reviewer criteria for every task.
+4. Split the work into draft tasks with clear file boundaries.
+5. Write or update `orchestration/TASKS.md` as a draft task index until the user approves it.
+6. Return the draft task list in chat using only goal, dependencies, and suggested routing class.
+7. After user approval, create one standalone task file per task in `orchestration/tasks/` using the task template.
+8. For each approved task, record whether model routing is `advisory` or `enforced`.
+9. Create per-platform dispatch files in `orchestration/dispatch/` only after approval and only when the user wants executable routing help.
+10. Add dependency order.
+11. Set execution mode to `sequential` by default.
+12. Mark which tasks can safely run in parallel.
+13. Add token estimate ranges for every task.
+14. Define verification commands for every task.
+15. Define reviewer criteria for every task.
 
 ## Parent Planner Metadata Requirement
 
@@ -245,6 +268,7 @@ For more detail, read `references/model-routing.md`.
 
 When writing the task index in `orchestration/TASKS.md`, include:
 
+- draft status
 - task ID
 - goal
 - dependency order
@@ -257,6 +281,18 @@ When writing the task index in `orchestration/TASKS.md`, include:
 - task file path
 - dispatch file paths
 - reviewer expectation
+
+Before approval:
+
+- mark `orchestration/TASKS.md` clearly as `draft`
+- do not create standalone task files
+- in chat, present only goal, dependencies, and suggested routing class
+
+After approval:
+
+- remove or update the `draft` marker in `orchestration/TASKS.md`
+- create all standalone task files immediately
+- create dispatch files only if needed
 
 When writing each standalone task file in `orchestration/tasks/`, use this structure:
 

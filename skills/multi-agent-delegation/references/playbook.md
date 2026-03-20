@@ -18,21 +18,27 @@ Core roles:
 Planner flow:
 
 1. Create or update the project orchestration directory at `orchestration/`.
-2. Write a project plan using the plan template at `orchestration/PLAN.md`.
-3. Record plan creation metadata for the parent planner agent.
-4. Split work into task-sized units.
-5. Write `orchestration/TASKS.md` as the canonical task index.
-6. Create one standalone prompt file per task in `orchestration/tasks/`.
-7. Decide whether each task's model routing is `enforced` or `advisory`.
-8. Create per-platform dispatch files in `orchestration/dispatch/` when the user wants routing that can actually be executed.
-9. Set execution mode to sequential by default.
-10. Identify dependencies and safe parallelism.
-11. Route each task to an appropriate model tier.
-12. Add token estimate ranges per task.
-13. Require verification on every task.
-14. Require a review pass before marking a task complete.
-15. Log completion metadata: model used and token usage fields.
-16. Append handoff notes after each task.
+2. If the project goal is missing or vague, ask only for the project goal first.
+3. After the user answers, restate your understanding and ask for confirmation.
+4. Ask about model preferences separately and make clear that answering is optional.
+5. If the user does not provide model preferences, state that the default routing policy will be used.
+6. Ask only the minimum additional clarifying questions needed to avoid planning the wrong thing.
+7. Write a project plan using the plan template at `orchestration/PLAN.md`.
+8. Record plan creation metadata for the parent planner agent.
+9. Split work into task-sized units.
+10. Write `orchestration/TASKS.md` as a draft task index.
+11. Return the draft task list in chat using only goal, dependencies, and suggested routing class.
+12. After user approval, create one standalone prompt file per task in `orchestration/tasks/`.
+13. Decide whether each approved task's model routing is `enforced` or `advisory`.
+14. Create per-platform dispatch files in `orchestration/dispatch/` when the user wants routing that can actually be executed.
+15. Set execution mode to sequential by default.
+16. Identify dependencies and safe parallelism.
+17. Route each task to an appropriate model tier.
+18. Add token estimate ranges per task.
+19. Require verification on every task.
+20. Require a review pass before marking a task complete.
+21. Log completion metadata: model used and token usage fields.
+22. Append handoff notes after each task.
 
 Model selection defaults:
 
@@ -49,12 +55,12 @@ Required project files:
 - `orchestration/PLAN.md`
 - `orchestration/TASKS.md`
 - `orchestration/progress.md`
-- `orchestration/tasks/TASK-XX.md` for every task
 
 Optional supporting files:
 
 - `orchestration/MODEL_ROUTING.md`
 - `orchestration/PLATFORM_MODEL_MAP.md`
+- `orchestration/tasks/TASK-XX.md` for every approved task
 - `orchestration/dispatch/TASK-XX.codex.md`
 - `orchestration/dispatch/TASK-XX.cursor.md`
 - `orchestration/dispatch/TASK-XX.claude.md`
@@ -130,6 +136,8 @@ Review standard:
 Task artifact standard:
 
 - `orchestration/TASKS.md` is the index, not the only place tasks live
-- each task must also exist as its own standalone file under `orchestration/tasks/`
+- before approval, `orchestration/TASKS.md` must be clearly marked `draft`
+- before approval, do not create standalone task files
+- after approval, each task must also exist as its own standalone file under `orchestration/tasks/`
 - task files should be dispatch-ready and copy-pasteable without manual reconstruction
 - dispatch files should exist when the user expects executable model-routing help across tools
