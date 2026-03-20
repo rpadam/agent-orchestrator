@@ -17,24 +17,34 @@ Core roles:
 
 Planner flow:
 
-1. Write a project plan using `PLAN_TEMPLATE.md`.
-2. Record plan creation metadata for the parent planner agent.
-3. Split work into task-sized units.
-4. Set execution mode to sequential by default.
-5. Identify dependencies and safe parallelism.
-6. Route each task to an appropriate model tier.
-7. Add token estimate ranges per task.
-8. Require verification on every task.
-9. Require a review pass before marking a task complete.
-10. Log completion metadata: model used and token usage fields.
-11. Append handoff notes after each task.
+1. Create or update the project orchestration directory at `orchestration/`.
+2. Write a project plan using the plan template at `orchestration/PLAN.md`.
+3. Record plan creation metadata for the parent planner agent.
+4. Split work into task-sized units.
+5. Write `orchestration/TASKS.md` as the canonical task index.
+6. Create one standalone prompt file per task in `orchestration/tasks/`.
+7. Set execution mode to sequential by default.
+8. Identify dependencies and safe parallelism.
+9. Route each task to an appropriate model tier.
+10. Add token estimate ranges per task.
+11. Require verification on every task.
+12. Require a review pass before marking a task complete.
+13. Log completion metadata: model used and token usage fields.
+14. Append handoff notes after each task.
 
 Required project files:
 
-- `PLAN.md` or equivalent
-- `TASKS.md` or equivalent
-- `progress.md`
-- prompt files if you want copy-paste delegation
+- `orchestration/PLAN.md`
+- `orchestration/TASKS.md`
+- `orchestration/progress.md`
+- `orchestration/tasks/TASK-XX.md` for every task
+
+Optional supporting files:
+
+- `orchestration/MODEL_ROUTING.md`
+- `orchestration/reviews/TASK-XX-review.md`
+
+Do not place skill-generated planning files at the repository root unless the user explicitly asks for a different layout.
 
 Required plan metadata:
 
@@ -86,3 +96,9 @@ Review standard:
 - check scope adherence, changed files, acceptance criteria, verification results, and blockers
 - check completion metadata includes model and token usage fields
 - reject if verification was skipped or unrelated files changed
+
+Task artifact standard:
+
+- `orchestration/TASKS.md` is the index, not the only place tasks live
+- each task must also exist as its own standalone file under `orchestration/tasks/`
+- task files should be dispatch-ready and copy-pasteable without manual reconstruction

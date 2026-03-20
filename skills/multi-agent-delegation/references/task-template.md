@@ -1,6 +1,6 @@
 # Task Template
 
-Use this format for every delegated task:
+Use this format for every delegated task file in `orchestration/tasks/`:
 
 ```text
 Task ID: UI-01
@@ -22,9 +22,9 @@ Token estimate:
 - output_tokens_estimate_max: 0
 
 Read first:
-- /absolute/path/to/project/PLAN.md
-- /absolute/path/to/project/TASKS.md
-- /absolute/path/to/project/progress.md
+- /absolute/path/to/project/orchestration/PLAN.md
+- /absolute/path/to/project/orchestration/TASKS.md
+- /absolute/path/to/project/orchestration/progress.md
 
 Files to edit:
 - path/a
@@ -51,7 +51,7 @@ Verification:
 - command
 
 Finish by:
-- updating progress.md
+- updating orchestration/progress.md
 - summarizing changed files
 - listing blockers honestly
 
@@ -70,6 +70,7 @@ Completion metadata:
 Rules:
 
 - keep each task to one goal
+- store every delegated task as its own file under `orchestration/tasks/`
 - make file scope explicit
 - make “do not” rules explicit
 - make acceptance criteria observable
@@ -78,3 +79,4 @@ Rules:
 - if parallel is approved, preserve the recommended model tier per task
 - include token estimate ranges before dispatch
 - log model-used and token-usage fields at completion (use null if unavailable)
+- keep the matching entry in `orchestration/TASKS.md` concise and point to the standalone task file

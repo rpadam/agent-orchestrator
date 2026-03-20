@@ -15,15 +15,29 @@ Keep `SKILL.md` loaded for the operating rules. Read bundled references only whe
 - `references/review-template.md` when reviewing completed tasks
 - `references/model-routing.md` when choosing model tiers
 
+## Artifact Layout
+
+Unless the user explicitly requests a different location, store all files created by this skill under a single project-root directory:
+
+- `orchestration/PLAN.md`
+- `orchestration/TASKS.md`
+- `orchestration/progress.md`
+- `orchestration/MODEL_ROUTING.md`
+- `orchestration/tasks/TASK-XX.md`
+- `orchestration/reviews/TASK-XX-review.md`
+
+Do not scatter skill-generated files across the project root.
+If legacy root-level planning files already exist, read them first, then migrate or replace them under `orchestration/` before dispatching new work.
+
 ## Read First
 
 Before planning or delegating, read the target project's:
 
-- plan file such as `PLAN.md`, `REWRITE_PLAN.md`, or equivalent
-- task file such as `TASKS.md`, `AGENT_TASKS.md`, or equivalent
-- `progress.md` if it exists
+- `orchestration/PLAN.md`, `PLAN.md`, `REWRITE_PLAN.md`, or equivalent
+- `orchestration/TASKS.md`, `TASKS.md`, `AGENT_TASKS.md`, or equivalent
+- `orchestration/progress.md` or `progress.md` if either exists
 
-If those files do not exist, create them before dispatching implementation work.
+If those files do not exist, create them under `orchestration/` before dispatching implementation work.
 
 ## Planner Workflow
 
@@ -31,12 +45,14 @@ If those files do not exist, create them before dispatching implementation work.
 2. Write or update `PLAN.md` using the plan template structure.
 3. Record parent planner metadata in the plan, including model and token usage fields.
 4. Split the work into tasks with clear file boundaries.
-5. Add dependency order.
-6. Set execution mode to `sequential` by default.
-7. Mark which tasks can safely run in parallel.
-8. Add token estimate ranges for every task.
-9. Define verification commands for every task.
-10. Define reviewer criteria for every task.
+5. Write or update `orchestration/TASKS.md` as the task index and execution ledger.
+6. Create one standalone task file per task in `orchestration/tasks/` using the task template.
+7. Add dependency order.
+8. Set execution mode to `sequential` by default.
+9. Mark which tasks can safely run in parallel.
+10. Add token estimate ranges for every task.
+11. Define verification commands for every task.
+12. Define reviewer criteria for every task.
 
 ## Parent Planner Metadata Requirement
 
@@ -100,11 +116,11 @@ Prefer tasks like:
 Every delegated agent should be told to:
 
 1. Work only in the target project root.
-2. Read the project plan, task file, and `progress.md`.
+2. Read `orchestration/PLAN.md`, `orchestration/TASKS.md`, the assigned file in `orchestration/tasks/`, and `orchestration/progress.md`.
 3. Implement only the assigned task.
 4. Avoid unrelated changes.
 5. Run required verification.
-6. Update `progress.md` with:
+6. Update `orchestration/progress.md` with:
    - what changed
    - blockers
    - next useful handoff notes
@@ -173,16 +189,28 @@ For more detail, read `references/model-routing.md`.
 
 ## Output Format For Task Definitions
 
-When writing tasks, use this structure:
+When writing the task index in `orchestration/TASKS.md`, include:
+
+- task ID
+- goal
+- dependency order
+- execution mode
+- parallel consent
+- model routing
+- token estimate
+- task file path
+- reviewer expectation
+
+When writing each standalone task file in `orchestration/tasks/`, use this structure:
 
 ```text
 Task ID: TASK-01
 Goal: one sentence
 Project root: /absolute/path
 Read first:
-- /absolute/path/PLAN.md
-- /absolute/path/TASKS.md
-- /absolute/path/progress.md
+- /absolute/path/orchestration/PLAN.md
+- /absolute/path/orchestration/TASKS.md
+- /absolute/path/orchestration/progress.md
 Files to edit:
 - path
 Files allowed to create:
@@ -196,7 +224,7 @@ Acceptance:
 Verification:
 - command
 Finish by:
-- update progress.md
+- update orchestration/progress.md
 - log completion metadata (model and token usage)
 ```
 
