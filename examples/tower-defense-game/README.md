@@ -1,96 +1,53 @@
 # Tower Defense Game Example
 
-This is the concrete example of the multi-agent delegation pattern applied to a real project.
+This is a concrete example of the multi-agent delegation workflow applied to a full game rewrite.
 
-Project root (example local path used during setup):
+Use this example to see how planning, tasking, model routing, and review connect end-to-end.
 
-- `/Users/raphaeladam/development/tower-defense-game`
+## Project Root Convention
 
-Use this example when you want to understand how the generic playbook maps onto an actual rewrite.
+Use a portable placeholder in prompts and docs:
+
+- `<project-root>`
+
+For this example, `<project-root>` is the tower-defense-game repository root.
 
 ## Example Inputs
 
-Project planning files:
+Planning files in the target project:
 
-- `REWRITE_PLAN.md`
-- `AGENT_TASKS.md`
-- `AGENT_HANDOFF.md`
-- `progress.md`
+- `<project-root>/REWRITE_PLAN.md`
+- `<project-root>/AGENT_TASKS.md`
+- `<project-root>/AGENT_HANDOFF.md`
+- `<project-root>/progress.md`
 
-Project prompt files:
+Prompt files in the target project:
 
-- `/Users/raphaeladam/development/tower-defense-game/.agent-prompts/UI-01.txt`
-- `/Users/raphaeladam/development/tower-defense-game/.agent-prompts/DATA-01.txt`
-- `/Users/raphaeladam/development/tower-defense-game/.agent-prompts/MAP-01.txt`
-- `/Users/raphaeladam/development/tower-defense-game/.agent-prompts/COMBAT-01.txt`
-- `/Users/raphaeladam/development/tower-defense-game/.agent-prompts/COMBAT-02.txt`
-- `/Users/raphaeladam/development/tower-defense-game/.agent-prompts/UI-02.txt`
-- `/Users/raphaeladam/development/tower-defense-game/.agent-prompts/QA-01.txt`
-- `/Users/raphaeladam/development/tower-defense-game/.agent-prompts/POLISH-01.txt`
+- `<project-root>/.agent-prompts/UI-01.txt`
+- `<project-root>/.agent-prompts/DATA-01.txt`
+- `<project-root>/.agent-prompts/MAP-01.txt`
+- `<project-root>/.agent-prompts/COMBAT-01.txt`
+- `<project-root>/.agent-prompts/COMBAT-02.txt`
+- `<project-root>/.agent-prompts/UI-02.txt`
+- `<project-root>/.agent-prompts/QA-01.txt`
+- `<project-root>/.agent-prompts/POLISH-01.txt`
 
-Structured task manifest:
+Structured manifest files:
 
-- `orchestration/tasks.json`
-- `orchestration/model-policy.json`
+- `<project-root>/orchestration/tasks.json`
+- `<project-root>/orchestration/model-policy.json`
+- `<project-root>/orchestration/adapters.json` (optional)
 
-## Why This Example Is Good
+## Why This Example Is Useful
 
-This example shows the full pattern:
+- large enough to require decomposition
+- clear subsystem boundaries (UI, data, map/path, combat, QA, polish)
+- meaningful dependency chain
+- cost-aware model routing and review gates
 
-- one large rewrite goal
-- explicit architecture target
-- tasks with bounded file ownership
-- dependency-aware sequence
-- model routing guidance
-- review and handoff rules
+## Sequence
 
-It is a good example because the project is too large for one weak agent but still easy to split by subsystem.
-
-## How The Generic Playbook Maps To This Project
-
-Human-facing playbook item:
-
-- Write a project plan
-
-Tower defense example:
-
-- `REWRITE_PLAN.md`
-
-Human-facing playbook item:
-
-- Define bounded tasks
-
-Tower defense example:
-
-- `AGENT_TASKS.md`
-
-Human-facing playbook item:
-
-- Provide copy-paste prompts
-
-Tower defense example:
-
-- `/Users/raphaeladam/development/tower-defense-game/.agent-prompts/*.txt`
-
-Human-facing playbook item:
-
-- Track handoff state
-
-Tower defense example:
-
-- `progress.md`
-
-Human-facing playbook item:
-
-- Optional machine-readable manifest
-
-Tower defense example:
-
-- `orchestration/tasks.json`
-
-## Task Sequence In This Example
-
-Use this order:
+Recommended order:
 
 1. `UI-01`
 2. `DATA-01`
@@ -101,65 +58,26 @@ Use this order:
 7. `QA-01`
 8. `POLISH-01`
 
-Reason:
+## Parallelism Guidance
 
-- UI shell and data boundaries come first
-- map and pathing come before combat polish
-- tower management depends on working combat and state
-- test hooks are checked after the game loop exists
-- final polish happens last
+- Default is sequential.
+- Parallel requires explicit user request or consent.
+- In this example, `UI-01` and `DATA-01` are a safe first-wave parallel pair only with consent.
 
-## Safe Parallelism In This Example
+## Completion Standard
 
-Safe first-wave parallel pair:
+Do not mark a task complete unless all are true:
 
-- `UI-01`
-- `DATA-01`
-
-Why:
-
-- one task focuses on shell and layout
-- the other focuses on state and data structure
-
-Unsafe pairs:
-
-- `COMBAT-01` with `COMBAT-02`
-- `UI-02` with anything editing `reducers.js`
-
-## Example Task Handoff
-
-The first task to hand out is `UI-01`.
-
-The prompt file already exists at:
-
-- `/Users/raphaeladam/development/tower-defense-game/.agent-prompts/UI-01.txt`
-
-That prompt tells the agent to:
-
-- work only in the project root
-- read the plan and handoff files first
-- edit only the allowed shell files
-- run `npm run build`
-- update `progress.md`
-
-## Example Review Standard
-
-For every completed task in this project, check:
-
-- did the agent stay within allowed files?
-- did the agent run `npm run build`?
-- did the agent update `progress.md`?
-- did the agent satisfy the task acceptance criteria?
-
-If any answer is no, do not mark the task complete.
+- agent stayed in allowed files
+- verification commands passed
+- acceptance criteria were met
+- progress log was updated
+- completion usage metadata was recorded
 
 ## Reuse Guidance
 
-When adapting this pattern to another project:
+To adapt this example for a new project:
 
-1. Replace the rewrite plan.
-2. Replace the task list.
-3. Replace the prompt files.
-4. Keep the same delegation and review structure.
-
-Do not copy the tower defense tasks directly unless the new project has the same architecture and risk profile.
+1. Replace project-specific plan and tasks.
+2. Regenerate prompt files under `.agent-prompts/`.
+3. Keep execution policy, model routing, and review gates.
