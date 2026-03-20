@@ -31,8 +31,9 @@ If those files do not exist, create them before dispatching implementation work.
 3. Add dependency order.
 4. Set execution mode to `sequential` by default.
 5. Mark which tasks can safely run in parallel.
-6. Define verification commands for every task.
-7. Define reviewer criteria for every task.
+6. Add token estimate ranges for every task.
+7. Define verification commands for every task.
+8. Define reviewer criteria for every task.
 
 ## Execution Mode Control
 
@@ -51,6 +52,7 @@ When planning, always include:
 - `execution_mode: sequential` or `execution_mode: parallel`
 - `parallel_consent: explicit` or `parallel_consent: not_granted`
 - a short justification if `execution_mode: parallel`
+- token estimate range fields for input and output
 
 A good task has:
 
@@ -82,6 +84,7 @@ Every delegated agent should be told to:
    - what changed
    - blockers
    - next useful handoff notes
+7. Log completion metadata with model used and token usage fields.
 
 If the task is underspecified or overlaps another task, stop and report that before editing.
 
@@ -96,6 +99,7 @@ The reviewer checks:
 - acceptance criteria
 - verification output
 - obvious bugs or regressions
+- completion metadata presence (model used and token usage fields)
 
 If the task fails review:
 
@@ -168,6 +172,7 @@ Verification:
 - command
 Finish by:
 - update progress.md
+- log completion metadata (model and token usage)
 ```
 
 ## References

@@ -22,6 +22,11 @@ Check 4: Quality
 - Any regressions?
 - Any missing tests or validation?
 
+Check 5: Usage Tracking
+- Is model used documented?
+- Are token fields present?
+- If token counts are missing, is there an explicit reason?
+
 Decision:
 - approved
 - needs changes

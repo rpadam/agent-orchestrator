@@ -41,6 +41,20 @@ Use for:
 - reviewer passes on high-risk tasks
 - cross-cutting refactors
 
+Estimated token bands (starting heuristic, tune over time):
+
+- cheap tier:
+  - input: 2k to 12k
+  - output: 0.5k to 4k
+- medium tier:
+  - input: 8k to 35k
+  - output: 2k to 12k
+- high tier:
+  - input: 20k to 80k
+  - output: 4k to 25k
+
+Treat these as planning ranges, not guarantees.
+
 ## Escalation Policy
 
 Start cheap only if task boundaries are narrow.
@@ -57,3 +71,9 @@ Escalate from medium to high when:
 - the task requires strong tradeoff judgment
 
 Do not escalate only because the first agent was sloppy. Tighten the task first.
+
+Usage logging requirement:
+
+- after task completion, record the actual model used
+- record token usage if the platform exposes it
+- if usage is unavailable, record null values with a short note

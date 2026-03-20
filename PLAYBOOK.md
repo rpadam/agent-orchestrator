@@ -32,9 +32,11 @@ Recommended flow:
 2. Split work into task-sized units.
 3. Identify dependencies and safe parallelism.
 4. Route each task to an appropriate model tier.
-5. Require verification on every task.
-6. Require a review pass before marking a task complete.
-7. Append handoff notes after each task.
+5. Add a token estimate range for each task before execution.
+6. Require verification on every task.
+7. Require a review pass before marking a task complete.
+8. Log completion metadata: model used and token usage.
+9. Append handoff notes after each task.
 
 ## Execution Control
 
@@ -125,6 +127,40 @@ Execution mode does not change model policy:
 
 - sequential and parallel runs should use the same recommended model tier for each task
 
+## Token Budgeting
+
+Estimate per task before dispatch:
+
+- `input_tokens_estimate_min`
+- `input_tokens_estimate_max`
+- `output_tokens_estimate_min`
+- `output_tokens_estimate_max`
+
+Store estimates as ranges, not single values.
+
+Use rough guidance:
+
+- cheap-tier bounded task: low range
+- medium-tier multi-file task: medium range
+- high-tier integration task: high range
+
+After completion, compare estimate to actual usage and adjust future ranges.
+
+## Completion Metadata
+
+When a task is marked complete, record:
+
+- `model_requested`
+- `model_actual`
+- `provider`
+- `input_tokens_actual` (nullable if unavailable)
+- `output_tokens_actual` (nullable if unavailable)
+- `total_tokens_actual` (nullable if unavailable)
+- `cost_actual_usd` (nullable if unavailable)
+- `completed_at`
+
+If the platform does not expose token counts, explicitly record `null` and include a note.
+
 ## Review Standard
 
 A task is not complete just because the agent says it is complete.
@@ -136,6 +172,7 @@ The reviewer checks:
 - acceptance criteria
 - verification command results
 - blockers and follow-up notes
+- completion metadata presence (model + token usage fields)
 
 Reject the task if:
 
