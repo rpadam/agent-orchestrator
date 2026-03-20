@@ -32,6 +32,10 @@ Installation and usage:
 - [docs/INVOKE.md](./docs/INVOKE.md)
 - [docs/PRACTICALS.md](./docs/PRACTICALS.md)
 
+Note:
+
+- Codex users should ensure `skill-installer` is available before using this skill (see `docs/INSTALL.md`).
+
 ## What This Solves
 
 This is not a fully automatic multi-agent runtime.

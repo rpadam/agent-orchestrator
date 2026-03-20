@@ -1,31 +1,35 @@
-# Install Guide (No Manual File Copy)
+# Install Guide
 
-This guide documents practical installation options for Codex, Claude Code, and Cursor.
+This guide is the practical install path for Codex, Claude Code, and Cursor without manual file copying.
 
-## Recommended Distribution Strategy
+## Prerequisite (Codex)
 
-Use two channels:
+You need the `skill-installer` skill available in Codex.
 
-1. Native installer path where available.
-2. Git-based sync path where native installers are not available.
+- In many Codex environments it is already available as a system skill.
+- If it is missing, install it from OpenAI skills docs/repo first.
 
-That keeps install friction low while staying portable.
+References:
 
-## Codex
+- https://developers.openai.com/codex/skills
+- https://github.com/openai/skills
+- https://github.com/openai/skills/tree/main/skills/skill-installer
 
-### Option A (recommended): install by URL with `$skill-installer`
+## Codex Install
 
-In Codex, run:
+Recommended:
 
 ```text
 $skill-installer install https://github.com/rpadam/agent-orchestrator/tree/main/skills/multi-agent-delegation
 ```
 
-Then restart Codex if the skill does not appear immediately.
+Verify:
 
-### Option B: repo-scoped skill (shared with team)
+```text
+Use the multi-agent-delegation skill to plan a 3-task project.
+```
 
-Add this repo as a submodule and expose the skill under `.agents/skills`:
+If skill installer is unavailable, fallback is a repo-managed symlink install:
 
 ```bash
 git submodule add https://github.com/rpadam/agent-orchestrator.git .agents/vendor/agent-orchestrator
@@ -33,61 +37,54 @@ mkdir -p .agents/skills
 ln -s ../vendor/agent-orchestrator/skills/multi-agent-delegation .agents/skills/multi-agent-delegation
 ```
 
-This avoids copying files and keeps updates pull-based.
+## Claude Code Install
 
-## Claude Code
+Use Claude Code skills from `.claude/skills`. To avoid manual copying, use submodule + symlink:
 
-### Option A (recommended long-term): publish as a plugin marketplace entry
-
-Claude Code supports plugin marketplaces that can install plugins containing skills, agents, hooks, and MCP servers.
-
-Install flow for users becomes:
-
-```text
-/plugin marketplace add <owner>/<marketplace-repo>
-/plugin install <plugin-name>@<marketplace-name>
-/reload-plugins
+```bash
+git submodule add https://github.com/rpadam/agent-orchestrator.git .claude/vendor/agent-orchestrator
+mkdir -p .claude/skills
+ln -s ../vendor/agent-orchestrator/skills/multi-agent-delegation .claude/skills/multi-agent-delegation
 ```
 
-This is the best no-copy path for broad adoption.
+Verify in Claude Code by explicitly asking to use `multi-agent-delegation` on a small planning task.
 
-### Option B (immediate): git submodule + path wiring
+Note:
 
-If marketplace packaging is not ready yet, use a git submodule in the project and wire skills from it. This is still no manual copying, but less polished than marketplace install.
+- Plugin marketplace packaging is possible in Claude Code, but this repo does not currently ship a marketplace plugin package. The submodule+symlink flow above is the immediate no-copy option.
 
-## Cursor
+## Cursor Install
 
-Cursor supports project rules in `.cursor/rules` and AGENTS-style repo instructions. It does not currently have an equivalent first-party skill marketplace flow.
+Cursor uses rules/context files instead of a native cross-repo skill installer flow.
 
-### Option A (recommended): git submodule + project rules wrapper
+Use submodule + thin rule wrapper:
 
 ```bash
 git submodule add https://github.com/rpadam/agent-orchestrator.git .cursor/vendor/agent-orchestrator
 mkdir -p .cursor/rules
 ```
 
-Then create one thin rule file that points agents to the orchestrator docs in the submodule.
+Create `.cursor/rules/agent-orchestrator.mdc` that tells Cursor agents to read:
 
-### Option B: centralized internal template repo
+- `.cursor/vendor/agent-orchestrator/PLAYBOOK.md`
+- `.cursor/vendor/agent-orchestrator/PLAN_TEMPLATE.md`
+- `.cursor/vendor/agent-orchestrator/TASK_TEMPLATE.md`
+- `.cursor/vendor/agent-orchestrator/REVIEW_TEMPLATE.md`
+- `.cursor/vendor/agent-orchestrator/MODEL_ROUTING.md`
 
-If your org bootstraps repos from templates, include the submodule and wrapper rules in the template so end users do zero manual setup.
+## Update Installed Version
 
-## Update Strategy
-
-For submodule installs:
+For submodule-based installs:
 
 ```bash
 git submodule update --init --recursive
 git submodule update --remote --merge
 ```
 
-For plugin/installer-based installs, follow the platform-specific update mechanism.
+## Source Docs
 
-## Sources
-
-- Codex skills doc: https://developers.openai.com/codex/skills
-- OpenAI skills installer examples: https://github.com/openai/skills
+- Codex skills: https://developers.openai.com/codex/skills
+- OpenAI skills repo: https://github.com/openai/skills
 - Claude Code skills: https://docs.anthropic.com/en/docs/claude-code/skills
 - Claude Code slash commands: https://docs.anthropic.com/en/docs/claude-code/slash-commands
-- Claude Code plugin marketplace: https://code.claude.com/docs/en/discover-plugins
 - Cursor rules: https://docs.cursor.com/context/rules
