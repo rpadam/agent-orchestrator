@@ -30,10 +30,6 @@ Installation and usage:
 - [docs/INVOKE.md](./docs/INVOKE.md)
 - [docs/PRACTICALS.md](./docs/PRACTICALS.md)
 
-Example:
-
-- [examples/tower-defense-game/README.md](./examples/tower-defense-game/README.md)
-
 ## What This Solves
 
 This is not a fully automatic multi-agent runtime.
@@ -51,4 +47,3 @@ It provides a portable operating model that works across agentic tools:
 If you want machine-readable manifests, use:
 
 - [schemas/task-manifest.schema.json](./schemas/task-manifest.schema.json)
-- [examples/adapters.example.json](./examples/adapters.example.json)
