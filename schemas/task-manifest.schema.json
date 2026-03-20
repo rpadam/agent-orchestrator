@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/agent-orchestrator/task-manifest.schema.json",
+  "title": "Agent Task Manifest",
+  "type": "object",
+  "required": ["project", "tasks"],
+  "properties": {
+    "project": {
+      "type": "object",
+      "required": ["name", "root"],
+      "properties": {
+        "name": { "type": "string" },
+        "root": { "type": "string" }
+      }
+    },
+    "model_policy_file": {
+      "type": "string"
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "prompt_file", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "prompt_file": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "in_progress", "blocked", "completed"]
+          },
+          "depends_on": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "can_run_parallel": { "type": "boolean" },
+          "preferred_tier": { "type": "string" },
+          "preferred_model": { "type": "string" },
+          "review_model": { "type": "string" },
+          "allowed_paths": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "verification": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}
